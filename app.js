@@ -18,7 +18,7 @@
         return this.model.bind('remove', 'unrender');
       },
       render: function() {
-        $(this.el).html("<span>" + this.model.get('name') + "</span><a href='#' class='remove'>[delete]</a>");
+        $(this.el).html("<li><span>" + this.model.get('name') + " </span><a href='#' class='remove'>[delete]</a></li>");
         return this;
       },
       unrender: function() {
@@ -40,7 +40,7 @@
         return this.render();
       },
       render: function() {
-        $(this.el).append("<h2>Todo </h2>");
+        $(this.el).append("<h2>ToDo</h2>");
         $(this.el).append("<input id='new-todo' placeholder='What needs to be done?'' type='text' />");
         $(this.el).append("<ul></ul>");
         return _(this.collection.models).each(function(item) {
@@ -55,13 +55,14 @@
         item = new Item();
         task_name = $('input#new-todo')[0].value;
         if (task_name === '') {
-          task_name = item.get('name');
+          return alert("you can't add an empty item.");
+        } else {
+          item.set({
+            name: task_name
+          });
+          $('input#new-todo')[0].value = '';
+          return this.collection.add(item);
         }
-        item.set({
-          name: task_name
-        });
-        $('input#new-todo')[0].value = '';
-        return this.collection.add(item);
       },
       appendItem: function(item) {
         var itemView;

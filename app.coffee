@@ -19,7 +19,7 @@
       _.bindAll(@, 'render', 'unrender', 'remove')
       @model.bind('remove', 'unrender')
     render: ->
-      $(@el).html "<span>" + @model.get('name') + "</span><a href='#' class='remove'>[delete]</a>"
+      $(@el).html "<li><span>" + @model.get('name') + " </span><a href='#' class='remove'>[delete]</a></li>"
       return @
     unrender: ->
       $(@el).remove()
@@ -49,10 +49,12 @@
       return if e.keyCode != 13
       item = new Item()
       task_name = $('input#new-todo')[0].value
-      task_name = item.get('name') if task_name == ''
-      item.set name: task_name
-      $('input#new-todo')[0].value = ''
-      @collection.add(item)
+      if task_name == ''
+        alert "you can't add an empty item."
+      else
+        item.set name: task_name
+        $('input#new-todo')[0].value = ''
+        @collection.add(item)
     appendItem: (item) ->
       itemView = new ItemView(model: item)
       $('ul', @el).append(itemView.render().el)
